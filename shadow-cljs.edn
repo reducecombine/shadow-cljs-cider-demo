@@ -1,11 +1,17 @@
 ;; shadow-cljs configuration
-{:source-paths
- ["src/dev"
-  "src/main"
-  "src/test"]
+{:source-paths ["src" "test"]
 
- :dependencies
- []
+ :dependencies [[cider/cider-nrepl "0.31.0"]
+                [cider/piggieback "0.5.3"]
+                [refactor-nrepl/refactor-nrepl "3.6.0"]]
 
- :builds
- {}}
+ :nrepl {:middleware [cider.nrepl/cider-middleware
+                      cider.piggieback/wrap-cljs-repl
+                      refactor-nrepl.middleware/wrap-refactor]
+         #_ #_
+         :port 50655}
+
+ :builds {:app {:target :browser
+                :output-dir "public/js"
+                :asset-path "/js"
+                :modules {:main {:entries [my.app]}}}}}
